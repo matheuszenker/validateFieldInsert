@@ -18,7 +18,7 @@ class ValidateFieldInsert {
 	public function addInsert($value, $dbfield) {
 		$this->arrInsertUpdate[$dbfield] = $value;
 	}
-
+    
     public function exist($value, $field, $dbfield, $insert = true) {
         if(empty($value)) {
             $this->jsonReturn['status'] = false;
@@ -30,7 +30,7 @@ class ValidateFieldInsert {
             $this->arrInsertUpdate[$dbfield] = $value;
         }
     }
-
+    
 	public function mail($value, $field, $dbfield) {
 		if(!filter_var($value, FILTER_VALIDATE_EMAIL)) {
 			$this->jsonReturn['status'] = false;
