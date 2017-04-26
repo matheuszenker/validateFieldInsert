@@ -18,7 +18,7 @@ class ValidateFieldInsert {
 	public function addInsert($value, $dbfield) {
 		$this->arrInsertUpdate[$dbfield] = $value;
 	}
-    
+
     public function exist($value, $field, $dbfield, $insert = true) {
         if(empty($value)) {
             $this->jsonReturn['status'] = false;
@@ -30,7 +30,7 @@ class ValidateFieldInsert {
             $this->arrInsertUpdate[$dbfield] = $value;
         }
     }
-    
+
 	public function mail($value, $field, $dbfield) {
 		if(!filter_var($value, FILTER_VALIDATE_EMAIL)) {
 			$this->jsonReturn['status'] = false;
@@ -80,6 +80,10 @@ class ValidateFieldInsert {
 	}
 
 	public function number($value, $field, $dbfield) {
+        if($value) {
+            $value = (float)$value;
+        }
+
 		if(!is_numeric($value)) {
 			$this->jsonReturn['status'] = false;
 			$this->jsonReturn['field'][] = $field;
@@ -90,6 +94,10 @@ class ValidateFieldInsert {
 	}
 
 	public function integer($value, $field, $dbfield) {
+        if($value) {
+            $value = (integer)$value;
+        }
+
 		if(!is_integer($value)) {
 			$this->jsonReturn['status'] = false;
 			$this->jsonReturn['field'][] = $field;
@@ -120,6 +128,17 @@ class ValidateFieldInsert {
 
 		$this->arrInsertUpdate[$dbfield] = $value;
 	}
+
+    public function hour($value, $field, $dbfield) {
+        $exp = '/^[0-2]{1}[0-9]{1}:[0-5]{1}[0-9]{1}$/';
+        if(!preg_match($exp, $value)) {
+            $this->jsonReturn['status'] = false;
+            $this->jsonReturn['field'][] = $field;
+            return false;
+        } 
+
+        $this->arrInsertUpdate[$dbfield] = $value;
+    }
 
 	public function cep($value, $field, $dbfield) {
 		$exp = '/^[0-9]{5}-[0-9]{3}$/';
